@@ -1,0 +1,114 @@
+Версия 2.4.2
+-----------------------------------------------
+
+Движок на основе AdPlug 2.3.3 (кроме RAD.CPP, он из версии 2.3.2)
+
+Изменения:
+  - адаптирован под 16-битный реальный режим (для Borland C++ 3.1)
+  - операции с вещественными числами заменены на целочисленные
+  - оптимизированы процедуры загрузки музыки в память
+  - оптимизирована работа с таймером
+  - исправлен баг с софтверным регулятором громкости
+  - изменена логика "эквалайзера"
+  - изменена функция регулировки скорости воспроизведения
+  - добавлена функция для быстрого подсчета времени проигрывания музыки
+
+
+
++ OPL.CPP
+    - переписан на ассемблер
+    - исправлен баг с регулировкой громкости
+
+
+
++ оптимизация PROTRACK.CPP:
+    update()
+    setvolume()
+    setfreq()
+    playnote()
+    setnote()
+    slide_down()
+    slide_up()
+    tone_portamento()
+    vibrato()
+    vol_up()
+    vol_down()
+    vol_up_alt()
+    vol_down_alt()
+    init_trackord()
+
+    поменял:
+      'unsigned long activechan' на 'unsigned char activechan[32]'
+
+    поменял:
+      Instrument *inst                  inst[250]
+      Channel    *channel               channel[18]
+      uint8_t    *order                 order[128]
+      uint8_t    *arplist               arplist[256]
+      uint8_t    *arpcmd                arpcmd[256]
+      int8_t     *instname[250]        instname[250][32]
+      uint16_t  **trackord              trackord[64][18]
+      Tracks    **tracks               *tracks[64*18]
+
+    поменял:
+      'int flags' на 'unsigned char flags'
+
+    изменил параметр 'char chan' на 'Channel *chan' в функциях:
+      - slide_down()
+      - slide_up()
+      - vol_up()
+      - vol_down()
+      - vol_up_alt()
+      - vol_down_alt()
+
+    оптимизация с помощью регистров (_AX, _BX и тд):
+      - update()
+      - update_spd()
+      - setvolume()
+      - setfreq()
+      - setnote()
+      - playnote()
+      - vol_up()
+      - vol_down()
+      - tone_portamento()
+      - vibrato()
+
+
+
++ оптимизация AMD.CPP:
+    load()
+
+
+
++ оптимизация DMO.CPP:
+    load()
+
+
+
++ оптимизация SA2.CPP:
+    load()
+    поменял:
+      'unsigned long activechan' на 'unsigned char activechan[32]'
+
+
+
++ оптимизация S3M.CPP:
+    load()
+    update()
+    update_spd()
+    setvolume()
+    setfreq()
+    playnote()
+    slide_down()
+    slide_up()
+    vibrato()
+    tone_portamento()
+
+
+
++ оптимизация LDS.CPP:
+      update()
+      setregs_adv()
+      set_freq()
+      'static const CldsPlayer::XXXX' поменял на 'static const XXXX'
+
